@@ -1,6 +1,6 @@
 const grid = document.querySelector('.grid');
 
-const character = [
+const characters = [
     'beth',
     'jerry',
     'jessica',
@@ -19,6 +19,33 @@ const createElement = (tag, className) => {
     return element;
 }
 
+let firstCard = '';
+let secondCard = '';
+
+const checkCards = () => {
+
+}
+
+const revealCard = ({ target }) => {
+
+    if (target.parentNode.className.includes('reveal-card')){
+        return;
+    }
+
+    if (firstCard == ''){
+        target.parentNode.classList.add('reveal-card');
+        firstCard = target.parentNode;
+    } else if (secondCard == '') {
+
+        target.parentNode.classList.add('reveal-card');
+        secondCard = target.parentNode;
+
+        checkCards();
+
+    }
+
+    
+}
 
 const createCard = (character) => {
 
@@ -31,16 +58,21 @@ const createCard = (character) => {
     card.appendChild(front);
     card.appendChild(back);
 
+    card.addEventListener('click', revealCard);
+    card.setAttribute('data-character', character);
+
     return card;
 }
 
 const loadGame = () => {
 
-    character.forEach((character) => {
+    const duplicateCharacters = [ ... characters, ... characters ];
 
+    const shuffledArray = duplicateCharacters.sort(() => Math.random() - 0.5);
+
+    shuffledArray.forEach((character) => {
         const card = createCard(character);
         grid.appendChild(card);
-
     });
 
 }
